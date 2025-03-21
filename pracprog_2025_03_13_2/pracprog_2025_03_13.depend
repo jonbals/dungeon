@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1742476947 source:d:\180574\pracprog_2025_03_13\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+
+1742549845 source:d:\180574\pracprog_2025_03_13_2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+
