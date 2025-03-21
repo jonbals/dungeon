@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <stdbool.h>
 
 
 #define GRID_WIDTH 40
@@ -31,6 +32,9 @@ enum ENUM_TILES
 enum ENUM_ENEMIES
 {
     ENEMY_CAT,
+    ENEMY_BAT,
+    ENEMY_GUNTER,
+    ENEMY_ORGALORG,
     NUM_ENEMIES
 };
 
@@ -64,10 +68,15 @@ typedef struct {
 
 
 typedef struct {
+    bool large_sprite;
     const char* row1;
     const char* row2;
     const char* row3;
     const char* row4;
+    const char* row5;
+    const char* row6;
+    const char* row7;
+    const char* row8;
 } enemy_sprite_t;
 
 
@@ -288,12 +297,44 @@ int main()
     enemy_t enemies[NUM_ENEMIES];
 
     enemies[ENEMY_CAT].name = "Cat";
+    enemies[ENEMY_CAT].sprite.large_sprite = false;
     enemies[ENEMY_CAT].sprite.row1 = " ^-^   \\";
     enemies[ENEMY_CAT].sprite.row2 = "(O,O)_||";
     enemies[ENEMY_CAT].sprite.row3 = " | ___ |";
     enemies[ENEMY_CAT].sprite.row4 = " ||   ||";
     enemies[ENEMY_CAT].hp = 9;
     enemies[ENEMY_CAT].atk = 4;
+
+    enemies[ENEMY_BAT].name = "Bat";
+    enemies[ENEMY_BAT].sprite.large_sprite = false;
+    enemies[ENEMY_BAT].sprite.row1 = "\\ ^__^ /";
+    enemies[ENEMY_BAT].sprite.row2 = "=\\|..|/=";
+    enemies[ENEMY_BAT].sprite.row3 = "\"=/vv\\=\"";
+    enemies[ENEMY_BAT].sprite.row4 = " _\\^^/_ ";
+    enemies[ENEMY_BAT].hp = 4;
+    enemies[ENEMY_BAT].atk = 3;
+
+    enemies[ENEMY_GUNTER].name = "Gunter";
+    enemies[ENEMY_GUNTER].sprite.large_sprite = false;
+    enemies[ENEMY_GUNTER].sprite.row1 = " ,4###\\ ";
+    enemies[ENEMY_GUNTER].sprite.row2 = "|#/O  >0";
+    enemies[ENEMY_GUNTER].sprite.row3 = "|v|    Y";
+    enemies[ENEMY_GUNTER].sprite.row4 = "|#|_   |";
+    enemies[ENEMY_GUNTER].hp = 12;
+    enemies[ENEMY_GUNTER].atk = 6;
+
+    enemies[ENEMY_ORGALORG].name = "Orgalorg";
+    enemies[ENEMY_ORGALORG].sprite.large_sprite = true;
+    enemies[ENEMY_ORGALORG].sprite.row1 = " ,4###\\  ,4###\\ ";
+    enemies[ENEMY_ORGALORG].sprite.row2 = "|#/O  >0|#/O  >0";
+    enemies[ENEMY_ORGALORG].sprite.row3 = "|v|    Y|v|    Y";
+    enemies[ENEMY_ORGALORG].sprite.row4 = "|#|_   ||#|_   |";
+    enemies[ENEMY_ORGALORG].sprite.row5 = " ,4###\\  ,4###\\ ";
+    enemies[ENEMY_ORGALORG].sprite.row6 = "|#/O  >0|#/O  >0";
+    enemies[ENEMY_ORGALORG].sprite.row7 = "|v|    Y|v|    Y";
+    enemies[ENEMY_ORGALORG].sprite.row8 = "|#|_   ||#|_   |";
+    enemies[ENEMY_ORGALORG].hp = 100;
+    enemies[ENEMY_ORGALORG].atk = 20;
 
     battle_t battle;
     battle.msg = "";
@@ -370,7 +411,7 @@ int main()
                     if(colliding_tile_id == TILE_WALL) continue;
                     else if(colliding_tile_id == TILE_ENEMY)
                     {
-                        battle.enemy = &enemies[ENEMY_CAT];
+                        battle.enemy = &enemies[ENEMY_ORGALORG];
                         battle.enemy_cur_hp = battle.enemy->hp;
                         battle.player_cur_hp = 10;
                         cur_game_state = GAME_STATE_FIGHT;
@@ -393,23 +434,51 @@ int main()
         }
         else if(cur_game_state == GAME_STATE_FIGHT)
         {
+            printf("\n\n");
+            // enemy sprite
+            if(battle.enemy->sprite.large_sprite)
+            {
+                printf(
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n"
+                    "\t%s\n",
+                    battle.enemy->sprite.row1,
+                    battle.enemy->sprite.row2,
+                    battle.enemy->sprite.row3,
+                    battle.enemy->sprite.row4,
+                    battle.enemy->sprite.row5,
+                    battle.enemy->sprite.row6,
+                    battle.enemy->sprite.row7,
+                    battle.enemy->sprite.row8
+                );
+            }
+            else
+            {
+                printf(
+                    "\t\t%s\n"
+                    "\t\t%s\n"
+                    "\t\t%s\n"
+                    "\t\t%s\n",
+                    battle.enemy->sprite.row1,
+                    battle.enemy->sprite.row2,
+                    battle.enemy->sprite.row3,
+                    battle.enemy->sprite.row4
+                );
+            }
+
             printf(
-               "\n\n"
-               "\t\t%s\n"   // enemy sprite
-               "\t\t%s\n"
-               "\t\t%s\n"
-               "\t\t%s\n"
                "\n"
-               "\t\t%s\tHP:%d\n"
+               "\t\t%s  HP:%d\n"
                "\n\n"
                "\t\tYOUR HP:%d\n"
                "\n"
                "\t[A]ttack  [D]efend  [R]un\n"
                "\n%s\n",
-               battle.enemy->sprite.row1,
-               battle.enemy->sprite.row2,
-               battle.enemy->sprite.row3,
-               battle.enemy->sprite.row4,
                battle.enemy->name,
                battle.enemy_cur_hp,
                battle.player_cur_hp,
