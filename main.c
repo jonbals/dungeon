@@ -69,14 +69,7 @@ typedef struct {
 
 typedef struct {
     bool large_sprite;
-    const char* row1;
-    const char* row2;
-    const char* row3;
-    const char* row4;
-    const char* row5;
-    const char* row6;
-    const char* row7;
-    const char* row8;
+    const char* rows[8];
 } enemy_sprite_t;
 
 
@@ -298,41 +291,41 @@ int main()
 
     enemies[ENEMY_CAT].name = "Cat";
     enemies[ENEMY_CAT].sprite.large_sprite = false;
-    enemies[ENEMY_CAT].sprite.row1 = " ^-^   \\";
-    enemies[ENEMY_CAT].sprite.row2 = "(O,O)_||";
-    enemies[ENEMY_CAT].sprite.row3 = " | ___ |";
-    enemies[ENEMY_CAT].sprite.row4 = " ||   ||";
+    enemies[ENEMY_CAT].sprite.rows[0] = " ^-^   \\";
+    enemies[ENEMY_CAT].sprite.rows[1] = "(O,O)_||";
+    enemies[ENEMY_CAT].sprite.rows[2] = " | ___ |";
+    enemies[ENEMY_CAT].sprite.rows[3] = " ||   ||";
     enemies[ENEMY_CAT].hp = 9;
     enemies[ENEMY_CAT].atk = 4;
 
     enemies[ENEMY_BAT].name = "Bat";
     enemies[ENEMY_BAT].sprite.large_sprite = false;
-    enemies[ENEMY_BAT].sprite.row1 = "\\ ^__^ /";
-    enemies[ENEMY_BAT].sprite.row2 = "=\\|..|/=";
-    enemies[ENEMY_BAT].sprite.row3 = "\"=/vv\\=\"";
-    enemies[ENEMY_BAT].sprite.row4 = " _\\^^/_ ";
+    enemies[ENEMY_BAT].sprite.rows[0] = "\\ ^__^ /";
+    enemies[ENEMY_BAT].sprite.rows[1] = "=\\|..|/=";
+    enemies[ENEMY_BAT].sprite.rows[2] = "\"=/vv\\=\"";
+    enemies[ENEMY_BAT].sprite.rows[3] = " _\\^^/_ ";
     enemies[ENEMY_BAT].hp = 4;
     enemies[ENEMY_BAT].atk = 3;
 
     enemies[ENEMY_GUNTER].name = "Gunter";
     enemies[ENEMY_GUNTER].sprite.large_sprite = false;
-    enemies[ENEMY_GUNTER].sprite.row1 = " ,4###\\ ";
-    enemies[ENEMY_GUNTER].sprite.row2 = "|#/O  >0";
-    enemies[ENEMY_GUNTER].sprite.row3 = "|v|    Y";
-    enemies[ENEMY_GUNTER].sprite.row4 = "|#|_   |";
+    enemies[ENEMY_GUNTER].sprite.rows[0] = " ,4###\\ ";
+    enemies[ENEMY_GUNTER].sprite.rows[1] = "|#/O  >0";
+    enemies[ENEMY_GUNTER].sprite.rows[2] = "|v|    Y";
+    enemies[ENEMY_GUNTER].sprite.rows[3] = "|#|_   |";
     enemies[ENEMY_GUNTER].hp = 12;
     enemies[ENEMY_GUNTER].atk = 6;
 
     enemies[ENEMY_ORGALORG].name = "Orgalorg";
     enemies[ENEMY_ORGALORG].sprite.large_sprite = true;
-    enemies[ENEMY_ORGALORG].sprite.row1 = " ,4###\\  ,4###\\ ";
-    enemies[ENEMY_ORGALORG].sprite.row2 = "|#/O  >0|#/O  >0";
-    enemies[ENEMY_ORGALORG].sprite.row3 = "|v|    Y|v|    Y";
-    enemies[ENEMY_ORGALORG].sprite.row4 = "|#|_   ||#|_   |";
-    enemies[ENEMY_ORGALORG].sprite.row5 = " ,4###\\  ,4###\\ ";
-    enemies[ENEMY_ORGALORG].sprite.row6 = "|#/O  >0|#/O  >0";
-    enemies[ENEMY_ORGALORG].sprite.row7 = "|v|    Y|v|    Y";
-    enemies[ENEMY_ORGALORG].sprite.row8 = "|#|_   ||#|_   |";
+    enemies[ENEMY_ORGALORG].sprite.rows[0] = " ,4###\\  ,4###\\ ";
+    enemies[ENEMY_ORGALORG].sprite.rows[1] = "|#/O  >0|#/O  >0";
+    enemies[ENEMY_ORGALORG].sprite.rows[2] = "|v|    Y|v|    Y";
+    enemies[ENEMY_ORGALORG].sprite.rows[3] = "|#|_   ||#|_   |";
+    enemies[ENEMY_ORGALORG].sprite.rows[4] = " ,4###\\  ,4###\\ ";
+    enemies[ENEMY_ORGALORG].sprite.rows[5] = "|#/O  >0|#/O  >0";
+    enemies[ENEMY_ORGALORG].sprite.rows[6] = "|v|    Y|v|    Y";
+    enemies[ENEMY_ORGALORG].sprite.rows[7] = "|#|_   ||#|_   |";
     enemies[ENEMY_ORGALORG].hp = 100;
     enemies[ENEMY_ORGALORG].atk = 20;
 
@@ -438,37 +431,17 @@ int main()
             // enemy sprite
             if(battle.enemy->sprite.large_sprite)
             {
-                printf(
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n"
-                    "\t%s\n",
-                    battle.enemy->sprite.row1,
-                    battle.enemy->sprite.row2,
-                    battle.enemy->sprite.row3,
-                    battle.enemy->sprite.row4,
-                    battle.enemy->sprite.row5,
-                    battle.enemy->sprite.row6,
-                    battle.enemy->sprite.row7,
-                    battle.enemy->sprite.row8
-                );
+                for(int i = 0; i < 8; i++)
+                {
+                    printf("\t%s\n", battle.enemy->sprite.rows[i]);
+                }
             }
             else
             {
-                printf(
-                    "\t\t%s\n"
-                    "\t\t%s\n"
-                    "\t\t%s\n"
-                    "\t\t%s\n",
-                    battle.enemy->sprite.row1,
-                    battle.enemy->sprite.row2,
-                    battle.enemy->sprite.row3,
-                    battle.enemy->sprite.row4
-                );
+                for(int i = 0; i < 4; i++)
+                {
+                    printf("\t\t%s\n", battle.enemy->sprite.rows[i]);
+                }
             }
 
             printf(
